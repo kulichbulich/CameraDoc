@@ -1,0 +1,74 @@
+##############################
+#Initialize MIF/MPIF
+##############################
+
+### Disable WP1 in MIF2
+#Reg 20
+#Bit 8 = 0 (0)
+fpga wbits 20 8-8 0
+delay 15
+
+### Enable MPIF & but set to bypass (sets enable & clears all other bits)
+#Reg A6
+#Bit  0     = 0 (0)
+fpga write A6 1
+delay 15
+
+##############################
+#Configure MIF
+##############################
+
+### Programmable empty threshold for WP1
+#Reg 29
+#Bits 7:0 = 9F (159)
+fpga wbits 29 7-0 9F
+delay 15
+
+### Programmable full threshold for WP1
+#Reg 26
+#Bits 7:0 = C0 (192) 
+fpga wbits 26 7-0 192
+delay 15
+
+### Local Burst Size for WP1
+#Reg 23
+#Bits 15:8 = 14 (20)
+fpga wbits 23 15-8 14
+delay 15
+
+### Last Row for WP1
+#Reg 30
+#Bits 26:16 = 207 (519)
+fpga wbits 30 26-16 207
+delay 15
+
+### MIF Column Size for WP1
+#Reg 30 
+#Bits 10:0 = A4 (164)
+fpga wbits 30 10-0 A4
+
+### Enable WP1 in MIF
+#Reg 20
+#Bit 8 = 1 (1)
+fpga set 20 100 00000100
+delay 15
+##############################
+#Configure/Enable MPIF
+##############################
+
+### Packer Select
+#### *000 - Bypass
+#### *001 - IR Display MUX Output (664x520x16b / 640x480x16b [post tap 3])
+#### *010 - IR Pipeline Output (640x480x8b)
+#### *011 - Zoom Cropper       (224x156x8b)
+#### *100 - Overlay 	       (640x480x24b)
+
+#set IR pipeline to post NUC
+fpga wbits 68 23-20 1
+
+#Select IR Tap for FPA to USB Video
+#Reg A6
+#Bits 6:4   = 1 (1)#
+fpga wbits A6 6-4 1
+delay 15
+

@@ -1,0 +1,14 @@
+param get MICRO_IR.DEFAULT_VIDEO
+param set MICRO_IR.DEFAULT_VIDEO 4
+param get MICRO_IR.DEFAULT_16BIT_OUT
+param set MICRO_IR.DEFAULT_16BIT_OUT 2
+param set MICRO_IR.DEFAULT_CE_GAIN 4
+
+framerate default 60
+video_output default 16BIT
+video_16bit default AUTO
+auto_ce_lvl set 5
+color enable false
+polarity default white
+
+watch -n.1 "cat /proc/cpuinfo | grep \"^[c]pu MHz\""
